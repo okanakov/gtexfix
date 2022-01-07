@@ -93,7 +93,7 @@ with open('gtexfix_latex', 'wb') as fp:
 # https://stackoverflow.com/questions/54663900/how-to-use-regular-expression-to-remove-all-math-expression-in-latex-file
 recommand = re.compile(r'___GTEXFIXCOMMENT[0-9]*___|\\\\|\\title|\\chapter\**|\\section\**|\\subsection\**|\\subsubsection\**|\\subparagraph\**'
                        +r'|\\textbf\**|\\textit\**|\\textsc\**|\\textsf\**|\\textsl\**|\\texttt\**|\\emph\**|\\underline\**'
-                       +r'|~*\\footnote[0-9]*|(\$+)(?:(?!\1)[\s\S])*\1|~*\\\w*\s*{[^}]*}\s*{[^}]*}|~*\\\w*\s*{[^}]*}|~*\\\w*')
+                       +r'|~*\\footnote[0-9]*|(\$+)(?:(?!\1)[\s\S])*\1|~*\\\w*\s*(\[[^\]]*\]){0,1}({[^}]*})*')
 commands=[]
 for m in recommand.finditer(text):
     commands.append(m.group())
@@ -107,7 +107,7 @@ with open('gtexfix_commands', 'wb') as fp:
     pickle.dump(commands, fp)
 
 ### Save the processed output to .txt file
-limit=100000 # Estimated Google Translate character limit
+limit=30000 # Estimated Google Translate character limit
 filebase = re.sub('.tex$','',args.filename)
 start=0
 npart=0
